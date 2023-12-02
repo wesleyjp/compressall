@@ -36,9 +36,11 @@ do
 	COUNT=$((COUNT+1))
 	PORCENT=$(echo "scale=2;(${COUNT} / ${TOTALFILES})*100" | bc)
 
+	clear
+
 	echo ${PORCENT: 0:-3} | dialog --title "STATUS" --gauge "Processando arquivos... ${COUNT}/${TOTALFILES} ${f}" \ 20 80 0
 
-	ffmpeg -i "${f}" -vcodec libx265 -crf 28 -filter:v fps=30 "./compact/${f}">/dev/null 2>&1 # > /dev/null 2>&1 oculta saida redirecionando
+	ffmpeg -y -i "${f}" -vcodec libx265 -crf 28 -filter:v fps=30 "./compact/${f}">/dev/null 2>&1 # > /dev/null 2>&1 oculta saida redirecionando
 
 	if [ $? -ne 0 ]; then 
 		ERRORS=$((ERRORS+1)) 
